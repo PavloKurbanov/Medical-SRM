@@ -69,6 +69,7 @@ public class Main {
         Specialization[] specializations = Specialization.values();
         Specialization specialization = null;
 
+
         do {
             for (int i = 0; i < specializations.length; i++) {
                 System.out.println((i + 1) + ". " + specializations[i].getSpecialization());
@@ -78,6 +79,7 @@ public class Main {
             if (readInt >= 1 && readInt <= specializations.length) {
                 specialization = specializations[readInt - 1];
             }
+            System.out.println(prompt);
         } while (specialization == null);
         return specialization;
     }

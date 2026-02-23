@@ -3,6 +3,7 @@ package reposytory.impl;
 import entity.Appointment;
 import reposytory.AppointmentRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +19,53 @@ public class InMemoryAppointmentRepository implements AppointmentRepository {
 
     @Override
     public void save(Appointment appointment) {
-        appointment.setId(appointmentId++);
+        if(appointment.getId() == null) {
+            appointment.setId(appointmentId++);
+        }
         appointments.put(appointment.getId(), appointment);
     }
 
     @Override
     public Appointment findById(Integer appointmentId) {
         return appointments.get(appointmentId);
+    }
+
+    @Override
+    public List<Appointment> appointmentFindByDateTime(LocalDateTime date) {
+        List<Appointment> appointmentDataTimeList = new ArrayList<>();
+        List<Appointment> all = findAll();
+
+        for (Appointment appointment : all) {
+            if(appointment.getDateTime().equals(date)) {
+                appointmentDataTimeList.add(appointment);
+            }
+        }
+        return appointmentDataTimeList;
+    }
+
+    @Override
+    public List<Appointment> findByDoctorId(Integer doctorId) {
+        List<Appointment> appointmentDoctorId = new ArrayList<>();
+        List<Appointment> all = findAll();
+        for (Appointment appointment : all) {
+            if(appointment.getDoctorId().equals(doctorId)) {
+                appointmentDoctorId.add(appointment);
+            }
+        }
+        return appointmentDoctorId;
+    }
+
+    @Override
+    public List<Appointment> findByPatientId(Integer patientId) {
+        List<Appointment> appointmentPatientId = new ArrayList<>();
+        List<Appointment> all = findAll();
+
+        for (Appointment appointment : all) {
+            if(appointment.getPatientId().equals(patientId)) {
+                appointmentPatientId.add(appointment);
+            }
+        }
+        return appointmentPatientId;
     }
 
     @Override
