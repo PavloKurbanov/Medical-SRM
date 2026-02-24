@@ -13,8 +13,7 @@ public class RecordingMenuProcessor implements Processor {
     private final RecordingMenu recording;
 
     public RecordingMenuProcessor(InputReader inputReader, AppointmentService appointmentService, DoctorService doctorService, PatientService patientService) {
-        RecordingMenu recordingMenu = new RecordingMenu(inputReader, appointmentService, doctorService, patientService);
-        this.recording = recordingMenu;
+        this.recording = new RecordingMenu(inputReader, appointmentService, doctorService, patientService);
     }
 
     @Override

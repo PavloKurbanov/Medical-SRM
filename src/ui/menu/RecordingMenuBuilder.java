@@ -6,31 +6,26 @@ import service.PatientService;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import ui.processor.ShowAllAppointment;
+import ui.processor.ShowAllAppointmentDoctor;
+import ui.processor.ShowAllAppointmentPatient;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecordingMenuBuilder {
-    private final InputReader inputReader;
-    private final AppointmentService appointmentService;
-    private final DoctorService doctorService;
-    private final PatientService patientService;
-
-    public RecordingMenuBuilder(InputReader inputReader, AppointmentService appointmentService, DoctorService doctorService, PatientService patientService) {
-        this.inputReader = inputReader;
-        this.appointmentService = appointmentService;
-        this.doctorService = doctorService;
-        this.patientService = patientService;
-    }
+public record RecordingMenuBuilder(InputReader inputReader, AppointmentService appointmentService,
+                                   DoctorService doctorService, PatientService patientService) {
 
     public Map<String, Processor> showMenu() {
         Map<String, Processor> menu = new HashMap<>();
 
         Processor showAllAppointment = new ShowAllAppointment(appointmentService);
+        Processor showAllAppointmentDoctor = new ShowAllAppointmentDoctor(appointmentService, doctorService, inputReader);
+        Processor showAllAppointmentPatient = new ShowAllAppointmentPatient(appointmentService, patientService, inputReader);
 
         menu.put(showAllAppointment.choice(), showAllAppointment);
+        menu.put(showAllAppointmentDoctor.choice(), showAllAppointmentDoctor);
+        menu.put(showAllAppointmentPatient.choice(), showAllAppointmentPatient);
 
-        return  menu;
+        return menu;
     }
-
 }

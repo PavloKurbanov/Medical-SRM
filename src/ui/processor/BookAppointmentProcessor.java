@@ -1,6 +1,5 @@
 package ui.processor;
 
-import entity.Appointment;
 import entity.Doctor;
 import entity.Patient;
 import service.AppointmentService;
@@ -13,18 +12,8 @@ import util.DataTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class BookAppointmentProcessor implements Processor {
-    private final InputReader inputReader;
-    private final AppointmentService appointmentService;
-    private final DoctorService doctorService;
-    private final PatientService patientService;
-
-    public BookAppointmentProcessor(AppointmentService appointmentService, DoctorService doctorService, PatientService patientService, InputReader inputReader) {
-        this.inputReader = inputReader;
-        this.appointmentService = appointmentService;
-        this.doctorService = doctorService;
-        this.patientService = patientService;
-    }
+public record BookAppointmentProcessor(AppointmentService appointmentService, DoctorService doctorService,
+                                       PatientService patientService, InputReader inputReader) implements Processor {
 
     @Override
     public String choice() {

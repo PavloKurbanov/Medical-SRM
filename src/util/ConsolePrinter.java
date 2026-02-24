@@ -5,7 +5,7 @@ import java.util.List;
 public class ConsolePrinter {
     public static <T> boolean checkIfEmpty(List<T> list, String emptyMessage) {
         if(list.isEmpty()){
-            System.out.println(emptyMessage);
+            System.out.println("УВАГА! -> " + emptyMessage);
             return true;
         }
         return false;

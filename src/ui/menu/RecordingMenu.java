@@ -17,7 +17,6 @@ public class RecordingMenu {
         this.inputReader = inputReader;
         RecordingMenuBuilder recordingMenuBuilder = new RecordingMenuBuilder(inputReader, appointmentService, doctorService, patientService);
         this.processors = recordingMenuBuilder.showMenu();
-
     }
 
     public void showMenu() {

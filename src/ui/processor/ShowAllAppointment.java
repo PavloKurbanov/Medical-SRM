@@ -6,12 +6,7 @@ import util.ConsolePrinter;
 
 import java.util.List;
 
-public class ShowAllAppointment implements Processor {
-    private final AppointmentService appointmentService;
-
-    public ShowAllAppointment(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
+public record ShowAllAppointment(AppointmentService appointmentService) implements Processor {
 
     @Override
     public String choice() {
@@ -21,7 +16,7 @@ public class ShowAllAppointment implements Processor {
     @Override
     public void process() {
         List<Appointment> allAppointments = appointmentService.getAllAppointments();
-        if(ConsolePrinter.checkIfEmpty(allAppointments, "Не має жодного запису")){
+        if (ConsolePrinter.checkIfEmpty(allAppointments, "Не має жодного запису")) {
             return;
         }
         ConsolePrinter.showList(allAppointments, "--- ЗАПИСИ ---");

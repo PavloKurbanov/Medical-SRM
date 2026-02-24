@@ -11,18 +11,8 @@ import ui.processor.RecordingMenuProcessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainMenuBuilder {
-    private final InputReader inputReader;
-    private final AppointmentService appointmentService;
-    private final DoctorService doctorService;
-    private final PatientService patientService;
-
-    public MainMenuBuilder(InputReader inputReader, AppointmentService appointmentService, DoctorService doctorService, PatientService patientService) {
-        this.inputReader = inputReader;
-        this.appointmentService = appointmentService;
-        this.doctorService = doctorService;
-        this.patientService = patientService;
-    }
+public record MainMenuBuilder(InputReader inputReader, AppointmentService appointmentService,
+                              DoctorService doctorService, PatientService patientService) {
 
     public Map<String, Processor> showMenu() {
         Map<String, Processor> menu = new HashMap<>();
