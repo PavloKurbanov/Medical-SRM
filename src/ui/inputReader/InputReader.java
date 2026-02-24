@@ -1,11 +1,10 @@
-package menu.inputReader;
+package ui.inputReader;
 
 import entity.Specialization;
 import util.DataTimeFormat;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class InputReader {
