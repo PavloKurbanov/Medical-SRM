@@ -23,7 +23,7 @@ public class MainMenu {
         while(true){
             System.out.println("\nЛаскаво просимо до лікарні!");
             System.out.println("1) Адміністрація лікарні");
-            System.out.println("2) Запистись до лікаря");
+            System.out.println("2) Записатись до лікаря");
             System.out.println("3) Показати всі записи");
 
             String string = inputReader.readString("Ваш вибір: ");
@@ -39,7 +39,6 @@ public class MainMenu {
                     System.err.println("Введіть номер з пункту!");
                 }
             }
-
         }
     }
 }

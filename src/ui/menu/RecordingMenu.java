@@ -1,5 +1,8 @@
 package ui.menu;
 
+import service.AppointmentService;
+import service.DoctorService;
+import service.PatientService;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 
@@ -10,8 +13,10 @@ public class RecordingMenu {
     private final Map<String, Processor> processors;
 
 
-    public RecordingMenu(InputReader inputReader) {
+    public RecordingMenu(InputReader inputReader, AppointmentService appointmentService, DoctorService doctorService, PatientService patientService) {
         this.inputReader = inputReader;
+        RecordingMenuBuilder recordingMenuBuilder = new RecordingMenuBuilder(inputReader, appointmentService, doctorService, patientService);
+        this.processors = recordingMenuBuilder.showMenu();
 
     }
 
@@ -24,7 +29,7 @@ public class RecordingMenu {
 
             String string = inputReader.readString("Ваш вибір: ");
 
-            if(string == "0") {
+            if(string.equals("0")) {
                 return;
             } else {
                 Processor processor = processors.get(string);
