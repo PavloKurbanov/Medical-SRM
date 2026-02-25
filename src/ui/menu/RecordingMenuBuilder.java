@@ -15,10 +15,10 @@ public record RecordingMenuBuilder(InputReader inputReader, AppointmentService a
     public Map<String, Processor> showMenu() {
         Map<String, Processor> menu = new HashMap<>();
 
-        Processor showAllAppointment = new ShowAllAppointment(appointmentService);
-        Processor showAllAppointmentDoctor = new ShowAllAppointmentDoctor(appointmentService, doctorService, inputReader);
-        Processor showAllAppointmentPatient = new ShowAllAppointmentPatient(appointmentService, patientService, inputReader);
-        Processor showAllAppointmentByDate = new ShowAllAppointmentByDate(inputReader, appointmentService, doctorService,  patientService);
+        Processor showAllAppointment = new ShowAllAppointment(appointmentService, doctorService, patientService);
+        Processor showAllAppointmentDoctor = new ShowAllAppointmentDoctor(appointmentService, doctorService, patientService, inputReader);
+        Processor showAllAppointmentPatient = new ShowAllAppointmentPatient(appointmentService, doctorService, patientService, inputReader);
+        Processor showAllAppointmentByDate = new ShowAllAppointmentByDate(inputReader, appointmentService, doctorService, patientService);
 
         menu.put(showAllAppointment.choice(), showAllAppointment);
         menu.put(showAllAppointmentDoctor.choice(), showAllAppointmentDoctor);
