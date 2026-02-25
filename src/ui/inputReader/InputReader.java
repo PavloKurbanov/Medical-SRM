@@ -1,10 +1,11 @@
 package ui.inputReader;
 
 import entity.Specialization;
-import util.DataTimeFormat;
+import util.DateTimeFormat;
 
-import java.time.DateTimeException;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class InputReader {
@@ -37,9 +38,9 @@ public class InputReader {
 
         while (dateTime == null) {
             try {
-                dateTime = LocalDateTime.parse(scanner.nextLine(), DataTimeFormat.FORMATTED);
-            } catch (IllegalArgumentException | DateTimeException e) {
-                System.err.println("ПОМИКА: " + e.getMessage());
+                dateTime = DateTimeFormat.parse(scanner.nextLine());
+            } catch (IllegalArgumentException | DateTimeParseException e) {
+                System.err.println("ПОМИЛКА: Невірний формат дати. " + e.getMessage());
             }
         }
         return dateTime;

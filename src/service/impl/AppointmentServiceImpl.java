@@ -7,6 +7,7 @@ import reposytory.AppointmentRepository;
 import reposytory.DoctorRepository;
 import reposytory.PatientRepository;
 import service.AppointmentService;
+import util.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,8 +44,12 @@ public class AppointmentServiceImpl implements AppointmentService {
             LocalDateTime newStart = dateTime;
             LocalDateTime newEnd = newStart.plusMinutes(30);
 
+            if(dateTime.isBefore(LocalDateTime.now())){
+                throw new IllegalArgumentException("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
+            }
+
             if (existingStart.isBefore(newEnd) && newStart.isBefore(existingEnd)) {
-                throw new IllegalArgumentException("Лікар " + doctorById.getName() + " вже має запис на цей час!");
+                throw new IllegalArgumentException("Лікар " + doctorById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
             }
         }
 

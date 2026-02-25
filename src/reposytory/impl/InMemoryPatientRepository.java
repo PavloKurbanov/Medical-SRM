@@ -19,7 +19,9 @@ public class InMemoryPatientRepository implements PatientRepository {
 
     @Override
     public void save(Patient patient) {
-        patient.setId(patientId++);
+        if(patient.getId() == null) {
+            patient.setId(patientId++);
+        }
         patients.put(patient.getId(), patient);
     }
 

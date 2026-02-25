@@ -18,7 +18,9 @@ public class InMemoryDoctorRepository implements DoctorRepository {
 
     @Override
     public void save(Doctor doctor) {
-        doctor.setId(doctorId++);
+        if(doctor.getId() == null) {
+            doctor.setId(doctorId++);
+        }
         doctors.put(doctor.getId(), doctor);
     }
 

@@ -1,7 +1,5 @@
 package entity;
 
-import util.DataTimeFormat;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -48,10 +46,5 @@ public class Appointment {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Пацієнт: %s записаний до лікаря %s на (%s)", patientId, doctorId, DataTimeFormat.format(dateTime));
     }
 }

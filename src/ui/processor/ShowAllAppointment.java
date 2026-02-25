@@ -2,11 +2,15 @@ package ui.processor;
 
 import entity.Appointment;
 import service.AppointmentService;
+import service.DoctorService;
+import service.PatientService;
+import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 
 import java.util.List;
 
-public record ShowAllAppointment(AppointmentService appointmentService) implements Processor {
+public record ShowAllAppointment(AppointmentService appointmentService, DoctorService doctorService,
+                                 PatientService patientService) implements Processor {
 
     @Override
     public String choice() {
@@ -19,6 +23,7 @@ public record ShowAllAppointment(AppointmentService appointmentService) implemen
         if (ConsolePrinter.checkIfEmpty(allAppointments, "Не має жодного запису")) {
             return;
         }
-        ConsolePrinter.showList(allAppointments, "--- ЗАПИСИ ---");
+        List<String> formattedList = AppointmentViewMapper.toFormattedList(allAppointments, doctorService, patientService);
+        ConsolePrinter.showList(formattedList, "--- ЗАПИСИ ---");
     }
 }

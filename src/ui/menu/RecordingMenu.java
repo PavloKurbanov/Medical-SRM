@@ -24,6 +24,7 @@ public class RecordingMenu {
             System.out.println("1) Показати всі записи");
             System.out.println("2) Показати всі записи лікаря");
             System.out.println("3) Показати всі записи пацієнта");
+            System.out.println("4) Показати всі записи за датою");
             System.out.println("0) Повернутись до меню");
 
             String string = inputReader.readString("Ваш вибір: ");

@@ -7,7 +7,7 @@ import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
 import util.ConsolePrinter;
-import util.DataTimeFormat;
+import util.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,17 +35,17 @@ public record BookAppointmentProcessor(AppointmentService appointmentService, Do
             }
 
             ConsolePrinter.showList(allPatient, "--- ПАЦІЄНТИ ---");
-            Integer patientId = inputReader.readInt("Введіть ID пацієнта");
+            Integer patientId = inputReader.readInt("Введіть ID пацієнта: ");
             Patient patient = patientService.findById(patientId);
 
             ConsolePrinter.showList(allDoctor, "--- ЛІКАРІ ---");
-            Integer doctorId = inputReader.readInt("Введіть ID лікаря");
+            Integer doctorId = inputReader.readInt("Введіть ID лікаря: ");
             Doctor doctor = doctorService.findById(doctorId);
 
             LocalDateTime localDateTime = inputReader.readDateTime("Введіть дату через '-', та час через ':' :");
 
             appointmentService.save(doctorId, patientId, localDateTime);
-            System.out.println("Пацієнт " + patient.getName() + " записний до лікаря " + doctor.getName() + " на (" + DataTimeFormat.format(localDateTime) + ").");
+            System.out.println("Пацієнт " + patient.getName() + " записний до лікаря " + doctor.getName() + " на (" + DateTimeFormat.format(localDateTime) + ").");
         } catch (IllegalArgumentException e) {
             System.err.println("ПОМИЛКА: " + e.getMessage());
         }
