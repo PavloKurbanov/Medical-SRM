@@ -1,12 +1,11 @@
-package ui.processor;
+package ui.processor.navigation;
 
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
 import ui.menu.RecordingMenu;
-
-import java.util.Map;
+import ui.processor.Processor;
 
 public class RecordingMenuProcessor implements Processor {
 

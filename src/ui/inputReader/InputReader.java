@@ -26,7 +26,7 @@ public class InputReader {
                 System.out.print(prompt);
                 String input = scanner.nextLine();
                 return Integer.parseInt(input);
-            } catch (IllegalArgumentException e) {
+            } catch (NumberFormatException e) {
                 System.err.println("Введіть число!");
             }
         }
@@ -49,15 +49,18 @@ public class InputReader {
     public Specialization readSpecialization(String prompt) {
         Specialization[] specializations = Specialization.values();
         Specialization specialization = null;
-
         do {
-            System.out.println(prompt);
-            for (int i = 0; i < specializations.length; i++) {
-                System.out.println((i + 1) + ". " + specializations[i].getSpecialization());
-            }
-            int specializationNumber = Integer.parseInt(scanner.nextLine());
-            if (specializationNumber >= 1 && specializationNumber <= specializations.length) {
-                specialization = specializations[specializationNumber - 1];
+            try {
+                System.out.println(prompt);
+                for (int i = 0; i < specializations.length; i++) {
+                    System.out.println((i + 1) + ". " + specializations[i].getSpecialization());
+                }
+                int specializationNumber = Integer.parseInt(scanner.nextLine());
+                if (specializationNumber >= 1 && specializationNumber <= specializations.length) {
+                    specialization = specializations[specializationNumber - 1];
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Введіть число!");
             }
         } while (specialization == null);
         return specialization;

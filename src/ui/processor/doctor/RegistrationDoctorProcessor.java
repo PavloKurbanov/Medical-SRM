@@ -1,11 +1,12 @@
-package ui.processor;
+package ui.processor.doctor;
 
 import entity.Doctor;
 import entity.Specialization;
 import service.DoctorService;
 import ui.inputReader.InputReader;
+import ui.processor.Processor;
 
-public record RegistrationDoctorProcess(InputReader inputReader, DoctorService doctorService) implements Processor {
+public record RegistrationDoctorProcessor(InputReader inputReader, DoctorService doctorService) implements Processor {
 
     @Override
     public String choice() {

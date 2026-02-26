@@ -4,10 +4,10 @@ import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
-import ui.processor.BookAppointmentProcessor;
+import ui.processor.appointment.BookAppointmentProcessor;
 import ui.processor.Processor;
-import ui.processor.RecordingMenuProcessor;
-import ui.processor.RegistrationMenuProcessor;
+import ui.processor.navigation.RecordingMenuProcessor;
+import ui.processor.navigation.RegistrationMenuProcessor;
 
 import java.util.HashMap;
 import java.util.Map;

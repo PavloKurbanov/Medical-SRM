@@ -1,7 +1,6 @@
-package reposytory;
+package repository;
 
 import entity.Appointment;
-import util.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

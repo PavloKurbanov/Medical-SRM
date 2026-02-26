@@ -1,7 +1,7 @@
-package reposytory.impl;
+package repository.impl;
 
 import entity.Doctor;
-import reposytory.DoctorRepository;
+import repository.DoctorRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

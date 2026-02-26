@@ -1,7 +1,7 @@
 package service.impl;
 
 import entity.Doctor;
-import reposytory.DoctorRepository;
+import repository.DoctorRepository;
 import service.DoctorService;
 
 import java.util.List;

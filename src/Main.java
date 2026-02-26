@@ -1,10 +1,9 @@
-import entity.Patient;
-import reposytory.AppointmentRepository;
-import reposytory.DoctorRepository;
-import reposytory.PatientRepository;
-import reposytory.impl.InMemoryAppointmentRepository;
-import reposytory.impl.InMemoryDoctorRepository;
-import reposytory.impl.InMemoryPatientRepository;
+import repository.AppointmentRepository;
+import repository.DoctorRepository;
+import repository.PatientRepository;
+import repository.impl.InMemoryAppointmentRepository;
+import repository.impl.InMemoryDoctorRepository;
+import repository.impl.InMemoryPatientRepository;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
@@ -13,8 +12,6 @@ import service.impl.DoctorServiceImpl;
 import service.impl.PatientServiceImpl;
 import ui.inputReader.InputReader;
 import ui.menu.MainMenu;
-
-import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.

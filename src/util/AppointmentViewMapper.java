@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class AppointmentViewMapper {
+    private AppointmentViewMapper() {
+        throw new IllegalStateException("Клас не можна створити!");
+    }
 
     public static List<String> toFormattedList(List<Appointment> appointments, DoctorService doctorService, PatientService patientService) {
         List<String> formattedList = new ArrayList<>();

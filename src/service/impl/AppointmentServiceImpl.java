@@ -3,9 +3,9 @@ package service.impl;
 import entity.Appointment;
 import entity.Doctor;
 import entity.Patient;
-import reposytory.AppointmentRepository;
-import reposytory.DoctorRepository;
-import reposytory.PatientRepository;
+import repository.AppointmentRepository;
+import repository.DoctorRepository;
+import repository.PatientRepository;
 import service.AppointmentService;
 import util.DateTimeFormat;
 

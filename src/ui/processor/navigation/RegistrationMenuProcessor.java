@@ -1,9 +1,10 @@
-package ui.processor;
+package ui.processor.navigation;
 
 import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
 import ui.menu.RegistrationMenu;
+import ui.processor.Processor;
 
 public class RegistrationMenuProcessor implements Processor {
     private final RegistrationMenu registrationMenu;

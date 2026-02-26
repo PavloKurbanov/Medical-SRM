@@ -1,9 +1,10 @@
-package ui.processor;
+package ui.processor.appointment;
 
 import entity.Appointment;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
+import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 

@@ -1,7 +1,7 @@
-package reposytory.impl;
+package repository.impl;
 
 import entity.Appointment;
-import reposytory.AppointmentRepository;
+import repository.AppointmentRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
-package reposytory.impl;
+package repository.impl;
 
-import entity.Doctor;
 import entity.Patient;
-import reposytory.PatientRepository;
+import repository.PatientRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

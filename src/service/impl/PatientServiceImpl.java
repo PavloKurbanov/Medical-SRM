@@ -1,7 +1,7 @@
 package service.impl;
 
 import entity.Patient;
-import reposytory.PatientRepository;
+import repository.PatientRepository;
 import service.PatientService;
 
 import java.util.List;

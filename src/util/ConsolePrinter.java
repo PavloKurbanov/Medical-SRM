@@ -1,12 +1,4 @@
 package util;
-
-import entity.Appointment;
-import entity.Doctor;
-import entity.Patient;
-import service.DoctorService;
-import service.PatientService;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConsolePrinter {

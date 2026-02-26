@@ -1,9 +1,9 @@
-package ui.processor;
+package ui.processor.patient;
 
 import entity.Patient;
-import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
+import ui.processor.Processor;
 
 public record RegistrationPatientProcessor(InputReader inputReader,
                                            PatientService patientService) implements Processor {
@@ -20,7 +20,7 @@ public record RegistrationPatientProcessor(InputReader inputReader,
             patientService.save(new Patient(null, patientName));
             System.out.println("Пацієнт " + patientName + " успішно доданий!");
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("ПОМИКА: " + e.getMessage());
+            System.err.println("ПОМИЛКА: " + e.getMessage());
         }
     }
 }

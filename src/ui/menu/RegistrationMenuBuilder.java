@@ -4,8 +4,8 @@ import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
-import ui.processor.RegistrationDoctorProcess;
-import ui.processor.RegistrationPatientProcessor;
+import ui.processor.doctor.RegistrationDoctorProcessor;
+import ui.processor.patient.RegistrationPatientProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class RegistrationMenuBuilder {
     public Map<String, Processor> showMenu() {
         Map<String, Processor> menu = new HashMap<>();
 
-        Processor registerDoctor = new RegistrationDoctorProcess(inputReader, doctorService);
+        Processor registerDoctor = new RegistrationDoctorProcessor(inputReader, doctorService);
         Processor registerPatient = new RegistrationPatientProcessor(inputReader, patientService);
 
         menu.put(registerDoctor.choice(), registerDoctor);

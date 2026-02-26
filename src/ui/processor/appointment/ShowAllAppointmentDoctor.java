@@ -1,17 +1,15 @@
-package ui.processor;
+package ui.processor.appointment;
 
 import entity.Appointment;
 import entity.Doctor;
-import entity.Patient;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
 import ui.inputReader.InputReader;
+import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
-import util.DateTimeFormat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record ShowAllAppointmentDoctor(AppointmentService appointmentService,
