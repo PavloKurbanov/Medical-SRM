@@ -21,7 +21,7 @@ public class InMemoryAppointmentRepository implements AppointmentRepository {
 
     @Override
     public void save(Appointment appointment) {
-        if(appointment.getId() == null) {
+        if(appointment.getId() == null){
             appointment.setId(appointmentId++);
         }
         appointments.put(appointment.getId(), appointment);

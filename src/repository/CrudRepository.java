@@ -1,5 +1,4 @@
 package repository;
-
 import java.util.List;
 
 public interface CrudRepository<T, ID> {
