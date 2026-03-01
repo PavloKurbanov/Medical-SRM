@@ -34,22 +34,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (patientById == null) {
             throw new IllegalArgumentException("Пацієнта з ID " + patientId + " не знайдено!");
         }
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
+        }
 
         List<Appointment> appointmentsDoctorId = appointmentRepository.findByDoctorId(doctorId);
-
         for (Appointment appointment : appointmentsDoctorId) {
-            LocalDateTime existingStart = appointment.getDateTime();
-            LocalDateTime existingEnd = existingStart.plusMinutes(30);
-
-            LocalDateTime newStart = dateTime;
-            LocalDateTime newEnd = newStart.plusMinutes(30);
-
-            if(dateTime.isBefore(LocalDateTime.now())){
-                throw new IllegalArgumentException("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
-            }
-
-            if (existingStart.isBefore(newEnd) && newStart.isBefore(existingEnd)) {
+            if (isTimeOverlap(appointment.getDateTime(), dateTime)) {
                 throw new IllegalArgumentException("Лікар " + doctorById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
+            }
+        }
+
+        List<Appointment> appointmentsPatientId = appointmentRepository.findByPatientId(patientId);
+        for (Appointment appointment : appointmentsPatientId) {
+            if (isTimeOverlap(appointment.getDateTime(), dateTime)) {
+                throw new IllegalArgumentException("Пацієнт " + patientById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
             }
         }
 
@@ -79,5 +78,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    private boolean isTimeOverlap(LocalDateTime existingTime, LocalDateTime newTime) {
+        LocalDateTime existingEnd = existingTime.plusMinutes(30);
+        LocalDateTime newEnd = newTime.plusMinutes(30);
+
+        return existingTime.isBefore(newEnd) && newTime.isBefore(existingEnd);
     }
 }

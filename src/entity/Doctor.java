@@ -46,6 +46,6 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return String.format("ID: %d | %s | Specialization: %s", id, name, specialization.getSpecialization());
+        return String.format("ID: %d | %s | Спеціалізація: %s", id, name, specialization.getSpecialization());
     }
 }
