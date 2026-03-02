@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Appointment {
     private Integer id;
-    private  final Integer doctorId;
+    private final Integer doctorId;
     private final Integer patientId;
     private final LocalDateTime dateTime;
 
@@ -40,11 +40,11 @@ public class Appointment {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Appointment that = (Appointment) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(doctorId, that.doctorId) && Objects.equals(patientId, that.patientId) && Objects.equals(dateTime, that.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(doctorId, patientId, dateTime);
     }
 }

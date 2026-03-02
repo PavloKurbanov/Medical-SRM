@@ -1,17 +1,15 @@
 import repository.AppointmentRepository;
 import repository.DoctorRepository;
 import repository.PatientRepository;
-import repository.fileImpl.FIlePatientRepository;
+import repository.fileImpl.FilePatientRepository;
 import repository.fileImpl.FileAppointmentRepository;
 import repository.fileImpl.FileDoctorRepository;
-import repository.impl.InMemoryAppointmentRepository;
-import repository.impl.InMemoryDoctorRepository;
-import repository.impl.InMemoryPatientRepository;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
 import service.impl.AppointmentServiceImpl;
 import service.impl.DoctorServiceImpl;
+import service.impl.LiveQueueService;
 import service.impl.PatientServiceImpl;
 import ui.inputReader.InputReader;
 import ui.menu.MainMenu;
@@ -30,14 +28,15 @@ public class Main {
         InputReader inputReader = new InputReader();
 
         AppointmentRepository appointmentRepository = new FileAppointmentRepository(appointmentFine);
-        PatientRepository patientRepository = new FIlePatientRepository(patientFile);
+        PatientRepository patientRepository = new FilePatientRepository(patientFile);
         DoctorRepository doctorRepository = new FileDoctorRepository(doctorFile);
 
         PatientService patientService = new PatientServiceImpl(patientRepository);
         DoctorService doctorService = new DoctorServiceImpl(doctorRepository);
         AppointmentService appointmentService = new AppointmentServiceImpl(appointmentRepository, doctorRepository, patientRepository);
+        LiveQueueService liveQueueService = new LiveQueueService();
 
-        MainMenu mainMenu = new MainMenu(inputReader, appointmentService, doctorService, patientService);
+        MainMenu mainMenu = new MainMenu(inputReader, appointmentService, doctorService, patientService, liveQueueService);
         mainMenu.start();
     }
 }

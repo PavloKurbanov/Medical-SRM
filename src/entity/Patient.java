@@ -30,12 +30,12 @@ public class Patient {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
-        return Objects.equals(id, patient.id);
+        return Objects.equals(id, patient.id) && Objects.equals(name, patient.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id, name);
     }
 
     @Override

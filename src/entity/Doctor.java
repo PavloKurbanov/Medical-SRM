@@ -36,12 +36,12 @@ public class Doctor {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Doctor doctor = (Doctor) o;
-        return Objects.equals(id, doctor.id);
+        return Objects.equals(name, doctor.name) && specialization == doctor.specialization;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(name, specialization);
     }
 
     @Override

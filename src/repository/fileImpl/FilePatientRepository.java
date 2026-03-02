@@ -6,18 +6,17 @@ import repository.PatientRepository;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class FIlePatientRepository implements PatientRepository {
+public class FilePatientRepository implements PatientRepository {
     private final Path filePath;
+    private final Set<String> uniquePatientNames;
     private final Map<Integer, Patient> patients;
     private Integer patientId = 1;
 
-    public FIlePatientRepository(Path filePath) {
+    public FilePatientRepository(Path filePath) {
         this.patients = new HashMap<>();
+        this.uniquePatientNames = new HashSet<>();
         this.filePath = filePath;
 
         try {
@@ -36,8 +35,10 @@ public class FIlePatientRepository implements PatientRepository {
         if (patient.getId() == null) {
             patient.setId(patientId++);
         }
+        if (!uniquePatientNames.add(patient.getName())) {
+            throw new IllegalArgumentException("Пацієнт з таким іменем вже існує!");
+        }
         patients.put(patient.getId(), patient);
-
         try {
             saveFile();
         } catch (IOException e) {
@@ -80,6 +81,8 @@ public class FIlePatientRepository implements PatientRepository {
             Patient patient = new Patient(patientId, patientName);
 
             patients.put(patientId, patient);
+            uniquePatientNames.add(patient.getName());
+
             if (patientId >= this.patientId) {
                 this.patientId = patientId + 1;
             }

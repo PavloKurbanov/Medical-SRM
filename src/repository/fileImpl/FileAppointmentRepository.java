@@ -14,11 +14,13 @@ import java.util.*;
 public class FileAppointmentRepository implements AppointmentRepository {
     private final Path filePath;
     private final Map<Integer, Appointment> appointments;
+    private final Set<Appointment> uniqueAppointments;
     private Integer appointmentId = 1;
 
     public FileAppointmentRepository(Path filePath) {
         this.filePath = filePath;
         this.appointments = new HashMap<>();
+        this.uniqueAppointments = new HashSet<>();
         try {
             if (!Files.exists(filePath)) {
                 Files.createFile(filePath);
@@ -34,6 +36,9 @@ public class FileAppointmentRepository implements AppointmentRepository {
     public void save(Appointment appointment) {
         if (appointment.getId() == null) {
             appointment.setId(appointmentId++);
+        }
+        if(uniqueAppointments.add(appointment)){
+            throw new IllegalArgumentException("Такий запис вже існує!");
         }
         appointments.put(appointment.getId(), appointment);
 
@@ -81,6 +86,7 @@ public class FileAppointmentRepository implements AppointmentRepository {
 
             Appointment newAppointment = new Appointment(id, doctorId, patientId, dateTime);
             appointments.put(id, newAppointment);
+            uniqueAppointments.add(newAppointment);
         }
     }
 }

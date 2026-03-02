@@ -1,5 +1,6 @@
 package repository.fileImpl;
 
+import entity.Appointment;
 import entity.Doctor;
 import entity.Specialization;
 import repository.DoctorRepository;
@@ -7,18 +8,17 @@ import repository.DoctorRepository;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FileDoctorRepository implements DoctorRepository {
     private final Path filePath;
     private final Map<Integer, Doctor> doctors;
+    private final Set<String> uniqueDoctorNames;
     private Integer doctorId = 1;
 
     public FileDoctorRepository(Path filePath) {
         this.doctors = new HashMap<>();
+        this.uniqueDoctorNames = new HashSet<>();
         this.filePath = filePath;
 
         try {
@@ -37,6 +37,9 @@ public class FileDoctorRepository implements DoctorRepository {
     public void save(Doctor doctor) {
         if (doctor.getId() == null) {
             doctor.setId(doctorId++);
+        }
+        if(!uniqueDoctorNames.add(doctor.getName())){
+            throw new IllegalArgumentException("Доктор з таким іменем вже існує!");
         }
         doctors.put(doctor.getId(), doctor);
 
@@ -83,6 +86,7 @@ public class FileDoctorRepository implements DoctorRepository {
             Doctor doctor = new Doctor(doctorId, doctorName, specialization);
 
             doctors.put(doctor.getId(), doctor);
+            uniqueDoctorNames.add(doctor.getName());
             if (doctorId >= this.doctorId) {
                 this.doctorId = doctorId + 1;
             }
