@@ -3,7 +3,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
     private Integer id;
     private final Integer doctorId;
     private final Integer patientId;
@@ -46,5 +46,10 @@ public class Appointment {
     @Override
     public int hashCode() {
         return Objects.hash(doctorId, patientId, dateTime);
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        return this.dateTime.compareTo(o.dateTime);
     }
 }

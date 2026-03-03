@@ -1,12 +1,13 @@
 package service;
 
 import entity.Appointment;
+import service.callback.AppointmentCallback;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentService {
-    void save(Integer doctorId, Integer patientId, LocalDateTime dateTime);
+    void save(Integer doctorId, Integer patientId, LocalDateTime dateTime, AppointmentCallback appointmentCallback);
 
     Appointment findById(Integer id);
 

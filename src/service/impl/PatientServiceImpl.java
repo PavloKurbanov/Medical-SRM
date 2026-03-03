@@ -7,7 +7,7 @@ import service.PatientService;
 import java.util.List;
 
 public class PatientServiceImpl implements PatientService {
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
 
     public  PatientServiceImpl(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;

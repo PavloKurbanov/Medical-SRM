@@ -29,7 +29,6 @@ public class RegistrationMenu {
                 return;
             } else {
                 Processor processor = menu.get(string);
-
                 if(processor != null){
                     processor.process();
                 } else {

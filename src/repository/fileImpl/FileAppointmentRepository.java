@@ -21,6 +21,7 @@ public class FileAppointmentRepository implements AppointmentRepository {
         this.filePath = filePath;
         this.appointments = new HashMap<>();
         this.uniqueAppointments = new HashSet<>();
+
         try {
             if (!Files.exists(filePath)) {
                 Files.createFile(filePath);
@@ -37,7 +38,7 @@ public class FileAppointmentRepository implements AppointmentRepository {
         if (appointment.getId() == null) {
             appointment.setId(appointmentId++);
         }
-        if(uniqueAppointments.add(appointment)){
+        if(!uniqueAppointments.add(appointment)){
             throw new IllegalArgumentException("Такий запис вже існує!");
         }
         appointments.put(appointment.getId(), appointment);

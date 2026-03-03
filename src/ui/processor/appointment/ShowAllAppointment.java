@@ -8,6 +8,8 @@ import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public record ShowAllAppointment(AppointmentService appointmentService, DoctorService doctorService,
@@ -21,6 +23,7 @@ public record ShowAllAppointment(AppointmentService appointmentService, DoctorSe
     @Override
     public void process() {
         List<Appointment> allAppointments = appointmentService.getAllAppointments();
+        Collections.sort(allAppointments);
         if (ConsolePrinter.checkIfEmpty(allAppointments, "Не має жодного запису")) {
             return;
         }

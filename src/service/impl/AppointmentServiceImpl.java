@@ -6,6 +6,7 @@ import entity.Patient;
 import repository.AppointmentRepository;
 import repository.DoctorRepository;
 import repository.PatientRepository;
+import service.callback.AppointmentCallback;
 import service.AppointmentService;
 import util.DateTimeFormat;
 
@@ -24,31 +25,36 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void save(Integer doctorId, Integer patientId, LocalDateTime dateTime) {
+    public void save(Integer doctorId, Integer patientId, LocalDateTime dateTime, AppointmentCallback appointmentCallback) {
         Doctor doctorById = doctorRepository.findById(doctorId);
         Patient patientById = patientRepository.findById(patientId);
 
         if (doctorById == null) {
-            throw new IllegalArgumentException("Доктора з ID " + doctorId + " не знайдено!");
+            appointmentCallback.onError("Доктора з ID " + doctorId + " не знайдено!");
+            return;
         }
         if (patientById == null) {
-            throw new IllegalArgumentException("Пацієнта з ID " + patientId + " не знайдено!");
+            appointmentCallback.onError("Пацієнта з ID " + patientId + " не знайдено!");
+            return;
         }
         if (dateTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
+            appointmentCallback.onError("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
+            return;
         }
 
         List<Appointment> appointmentsDoctorId = appointmentRepository.findByDoctorId(doctorId);
         for (Appointment appointment : appointmentsDoctorId) {
             if (isTimeOverlap(appointment.getDateTime(), dateTime)) {
-                throw new IllegalArgumentException("Лікар " + doctorById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
+                appointmentCallback.onError("Лікар " + doctorById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
+                return;
             }
         }
 
         List<Appointment> appointmentsPatientId = appointmentRepository.findByPatientId(patientId);
         for (Appointment appointment : appointmentsPatientId) {
             if (isTimeOverlap(appointment.getDateTime(), dateTime)) {
-                throw new IllegalArgumentException("Пацієнт " + patientById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
+                appointmentCallback.onError("Пацієнт " + patientById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
+                return;
             }
         }
 
