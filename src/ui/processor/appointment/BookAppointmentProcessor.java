@@ -5,7 +5,6 @@ import entity.Patient;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
-import service.callback.AppointmentCallback;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.ConsolePrinter;
@@ -46,17 +45,11 @@ public record BookAppointmentProcessor(AppointmentService appointmentService, Do
 
         LocalDateTime localDateTime = inputReader.readDateTime("Введіть дату через '-', та час через ':' :");
 
-
-        appointmentService.save(doctorId, patientId, localDateTime, new AppointmentCallback() {
-            @Override
-            public void onSuccess() {
-                System.out.println("Пацієнт " + patient.getName() + " записний до лікаря " + doctor.getName() + " на (" + DateTimeFormat.format(localDateTime) + ").");
-            }
-
-            @Override
-            public void onError(String error) {
-                System.err.println("ВІДМОВА: " + error);
-            }
-        });
+        try {
+            appointmentService.save(doctorId, patientId, localDateTime);
+            System.out.println("Пацієнт " + patient.getName() + " записний до лікаря " + doctor.getName() + " на (" + DateTimeFormat.format(localDateTime) + ").");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

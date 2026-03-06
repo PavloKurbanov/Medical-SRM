@@ -10,7 +10,9 @@ import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record ShowAllAppointmentDoctor(AppointmentService appointmentService,
                                        DoctorService doctorService, PatientService patientService,
@@ -30,9 +32,13 @@ public record ShowAllAppointmentDoctor(AppointmentService appointmentService,
             ConsolePrinter.showList(allDoctors, "--- ЛІКАРІ ---");
 
             Integer doctorID = inputReader.readInt("Введіть ID лікаря: ");
+            if (doctorID == null) {
+                throw new IllegalArgumentException("Лікаря з таким ID не знайдено!");
+            }
+
             Doctor doctorRepositoryById = doctorService.findById(doctorID);
 
-            List<Appointment> allByDoctorId = appointmentService.findAllByDoctorId(doctorID);
+            List<Appointment> allByDoctorId = appointmentService.findAllByDoctorId(doctorID).stream().sorted().collect(Collectors.toList());
             if (ConsolePrinter.checkIfEmpty(allByDoctorId, "В лікаря " + doctorRepositoryById.getName() + " немає записів!")) {
                 return;
             }

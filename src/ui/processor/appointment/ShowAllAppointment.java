@@ -10,6 +10,7 @@ import util.ConsolePrinter;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public record ShowAllAppointment(AppointmentService appointmentService, DoctorService doctorService,
@@ -22,12 +23,11 @@ public record ShowAllAppointment(AppointmentService appointmentService, DoctorSe
 
     @Override
     public void process() {
-        List<Appointment> allAppointments = appointmentService.getAllAppointments();
-        Collections.sort(allAppointments);
-        if (ConsolePrinter.checkIfEmpty(allAppointments, "Не має жодного запису")) {
+        List<Appointment> sortAppointments = appointmentService.getSortAppointments(Comparator.comparing(Appointment::getId));
+        if (ConsolePrinter.checkIfEmpty(sortAppointments, "Не має жодного запису")) {
             return;
         }
-        List<String> formattedList = AppointmentViewMapper.toFormattedList(allAppointments, doctorService, patientService);
+        List<String> formattedList = AppointmentViewMapper.toFormattedList(sortAppointments, doctorService, patientService);
         ConsolePrinter.showList(formattedList, "--- ЗАПИСИ ---");
     }
 }

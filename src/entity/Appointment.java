@@ -10,6 +10,9 @@ public class Appointment implements Comparable<Appointment> {
     private final LocalDateTime dateTime;
 
     public Appointment(Integer id, Integer doctorId, Integer patientId, LocalDateTime dateTime) {
+        if(doctorId == null || patientId == null || dateTime == null){
+            throw new IllegalArgumentException("Введіть коректні дані!");
+        }
         this.id = id;
         this.doctorId = doctorId;
         this.patientId = patientId;
