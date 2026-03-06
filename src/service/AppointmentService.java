@@ -5,6 +5,7 @@ import service.callback.AppointmentCallback;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Predicate;
 
 public interface AppointmentService {
     void save(Integer doctorId, Integer patientId, LocalDateTime dateTime, AppointmentCallback appointmentCallback);
