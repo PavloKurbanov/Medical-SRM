@@ -1,14 +1,16 @@
 package entity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-public class Doctor {
+public class Doctor implements Comparable<Doctor> {
     private Integer id;
     private final String name;
     private final Specialization specialization;
 
     public Doctor(Integer id, String name, Specialization specialization) {
-        if(name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Введіть ім'я лікаря");
         }
         this.id = id;
@@ -42,6 +44,15 @@ public class Doctor {
     @Override
     public int hashCode() {
         return Objects.hash(name, specialization);
+    }
+
+    @Override
+    public int compareTo(@NotNull Doctor o) {
+        int nameCompare = name.compareTo(o.name);
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+        return this.id.compareTo(o.id);
     }
 
     @Override

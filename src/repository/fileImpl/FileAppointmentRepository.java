@@ -2,8 +2,7 @@ package repository.fileImpl;
 
 import entity.Appointment;
 import repository.AppointmentRepository;
-import repository.impl.InMemoryAppointmentRepository;
-import util.DateTimeFormat;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,6 +34,9 @@ public class FileAppointmentRepository implements AppointmentRepository {
 
     @Override
     public void save(Appointment appointment) {
+        if(appointment == null) {
+            throw new IllegalArgumentException("Не може бути null");
+        }
         if (appointment.getId() == null) {
             appointment.setId(appointmentId++);
         }

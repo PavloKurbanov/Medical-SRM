@@ -46,6 +46,7 @@ public class LiveQueueProcessor implements Processor {
                         // Перехоплюємо нашу помилку, якщо черга порожня
                         System.out.println("ПОМИЛКА: " + e.getMessage());
                     }
+                    break;
                 case "0":
                     return;
                 default:

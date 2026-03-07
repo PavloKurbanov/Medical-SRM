@@ -13,6 +13,7 @@ import util.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public record ShowAllAppointmentByDate(InputReader inputReader, AppointmentService appointmentService,
                                        DoctorService doctorService,
                                        PatientService patientService) implements Processor {

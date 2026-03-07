@@ -1,13 +1,14 @@
 package entity;
 
+
 import java.util.Objects;
 
-public class Patient {
+public class Patient implements Comparable<Patient> {
     private Integer id;
     private final String name;
 
     public Patient(Integer id, String name) {
-        if(name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Введіть ім'я пацієнта");
         }
         this.id = id;
@@ -36,6 +37,15 @@ public class Patient {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public int compareTo(Patient o) {
+        int nameCompare = name.compareTo(o.name);
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+        return this.id.compareTo(o.id);
     }
 
     @Override

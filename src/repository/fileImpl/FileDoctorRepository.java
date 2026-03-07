@@ -1,6 +1,6 @@
 package repository.fileImpl;
 
-import entity.Appointment;
+
 import entity.Doctor;
 import entity.Specialization;
 import repository.DoctorRepository;
@@ -35,6 +35,9 @@ public class FileDoctorRepository implements DoctorRepository {
 
     @Override
     public void save(Doctor doctor) {
+        if(doctor == null) {
+            throw new IllegalArgumentException("Не може бути null");
+        }
         if (doctor.getId() == null) {
             doctor.setId(doctorId++);
         }

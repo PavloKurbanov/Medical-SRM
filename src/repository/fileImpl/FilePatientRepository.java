@@ -32,6 +32,9 @@ public class FilePatientRepository implements PatientRepository {
 
     @Override
     public void save(Patient patient) {
+        if(patient == null) {
+            throw new IllegalArgumentException("Не може бути null");
+        }
         if (patient.getId() == null) {
             patient.setId(patientId++);
         }
