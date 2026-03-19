@@ -3,15 +3,12 @@ package ui.processor.doctor;
 import entity.Doctor;
 import entity.Specialization;
 import service.DoctorService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
-
+@MenuItem(action = "1", description = "Додати лікаря", group = MenuGroup.REGISTRATION)
 public record RegistrationDoctorProcessor(InputReader inputReader, DoctorService doctorService) implements Processor {
-
-    @Override
-    public String choice() {
-        return "1";
-    }
 
     @Override
     public void process() {

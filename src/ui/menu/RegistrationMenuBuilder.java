@@ -2,12 +2,15 @@ package ui.menu;
 
 import service.DoctorService;
 import service.PatientService;
+import ui.annotation.MenuGroup;
 import ui.inputReader.InputReader;
+import ui.menuRegistry.MenuRegistry;
 import ui.processor.Processor;
 import ui.processor.doctor.RegistrationDoctorProcessor;
 import ui.processor.patient.RegistrationPatientProcessor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegistrationMenuBuilder {
@@ -22,14 +25,12 @@ public class RegistrationMenuBuilder {
     }
 
     public Map<String, Processor> showMenu() {
-        Map<String, Processor> menu = new HashMap<>();
 
         Processor registerDoctor = new RegistrationDoctorProcessor(inputReader, doctorService);
         Processor registerPatient = new RegistrationPatientProcessor(inputReader, patientService);
 
-        menu.put(registerDoctor.choice(), registerDoctor);
-        menu.put(registerPatient.choice(), registerPatient);
+        List<Processor> register = List.of(registerDoctor, registerPatient);
 
-        return menu;
+        return MenuRegistry.buildMenu(register, MenuGroup.REGISTRATION);
     }
 }

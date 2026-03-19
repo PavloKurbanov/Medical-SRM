@@ -4,6 +4,8 @@ import entity.Appointment;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
@@ -13,15 +15,10 @@ import util.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@MenuItem(action = "4", description = "Показати всі записи за датою", group = MenuGroup.RECORDING)
 public record ShowAllAppointmentByDate(InputReader inputReader, AppointmentService appointmentService,
                                        DoctorService doctorService,
                                        PatientService patientService) implements Processor {
-
-    @Override
-    public String choice() {
-        return "4";
-    }
 
     @Override
     public void process() {

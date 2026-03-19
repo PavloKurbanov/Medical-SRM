@@ -5,6 +5,8 @@ import entity.Patient;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.ConsolePrinter;
@@ -12,14 +14,9 @@ import util.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@MenuItem(action = "2", description = "Записатись до лікаря")
 public record BookAppointmentProcessor(AppointmentService appointmentService, DoctorService doctorService,
                                        PatientService patientService, InputReader inputReader) implements Processor {
-
-    @Override
-    public String choice() {
-        return "2";
-    }
 
     @Override
     public void process() {

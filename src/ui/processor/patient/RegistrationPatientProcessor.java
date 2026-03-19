@@ -2,16 +2,13 @@ package ui.processor.patient;
 
 import entity.Patient;
 import service.PatientService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
-
+@MenuItem(action = "2", description = "Додати пацієнта", group = MenuGroup.REGISTRATION)
 public record RegistrationPatientProcessor(InputReader inputReader,
                                            PatientService patientService) implements Processor {
-
-    @Override
-    public String choice() {
-        return "2";
-    }
 
     @Override
     public void process() {

@@ -2,9 +2,11 @@ package ui.processor.liveQueue;
 
 import entity.Patient;
 import service.impl.LiveQueueService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
-
+@MenuItem(action = "4", description = "Жива черга")
 public class LiveQueueProcessor implements Processor {
     private final LiveQueueService liveQueueService;
     private final InputReader inputReader;
@@ -12,11 +14,6 @@ public class LiveQueueProcessor implements Processor {
     public LiveQueueProcessor(LiveQueueService liveQueueService, InputReader inputReader) {
         this.liveQueueService = liveQueueService;
         this.inputReader = inputReader;
-    }
-
-    @Override
-    public String choice() {
-        return "4";
     }
 
     @Override

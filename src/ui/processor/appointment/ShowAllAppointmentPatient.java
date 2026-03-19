@@ -5,21 +5,18 @@ import entity.Patient;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 
 import java.util.List;
-
+@MenuItem(action = "3", description = "Показати всі записи пацієнта", group = MenuGroup.RECORDING)
 public record ShowAllAppointmentPatient(AppointmentService appointmentService, DoctorService doctorService,
                                         PatientService patientService,
                                         InputReader inputReader) implements Processor {
-
-    @Override
-    public String choice() {
-        return "3";
-    }
 
     @Override
     public void process() {

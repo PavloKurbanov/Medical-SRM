@@ -4,6 +4,8 @@ import entity.Appointment;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
+import ui.annotation.MenuGroup;
+import ui.annotation.MenuItem;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
@@ -12,14 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+@MenuItem(action = "1", description = "Показати всі записи", group = MenuGroup.RECORDING)
 public record ShowAllAppointment(AppointmentService appointmentService, DoctorService doctorService,
                                  PatientService patientService) implements Processor {
-
-    @Override
-    public String choice() {
-        return "1";
-    }
 
     @Override
     public void process() {

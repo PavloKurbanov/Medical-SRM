@@ -1,7 +1,5 @@
 package entity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class Doctor implements Comparable<Doctor> {
@@ -47,7 +45,7 @@ public class Doctor implements Comparable<Doctor> {
     }
 
     @Override
-    public int compareTo(@NotNull Doctor o) {
+    public int compareTo(Doctor o) {
         int nameCompare = name.compareTo(o.name);
         if (nameCompare != 0) {
             return nameCompare;
