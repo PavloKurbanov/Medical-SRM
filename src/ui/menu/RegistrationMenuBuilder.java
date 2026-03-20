@@ -2,14 +2,13 @@ package ui.menu;
 
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuGroup;
 import ui.inputReader.InputReader;
-import ui.menuRegistry.MenuRegistry;
+import ui.annotation.menuAnnotation.menuRegistry.MenuRegistry;
 import ui.processor.Processor;
 import ui.processor.doctor.RegistrationDoctorProcessor;
 import ui.processor.patient.RegistrationPatientProcessor;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

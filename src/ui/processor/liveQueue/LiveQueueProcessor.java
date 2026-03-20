@@ -2,8 +2,7 @@ package ui.processor.liveQueue;
 
 import entity.Patient;
 import service.impl.LiveQueueService;
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 @MenuItem(action = "4", description = "Жива черга")
@@ -41,13 +40,13 @@ public class LiveQueueProcessor implements Processor {
                         System.out.println(">>> Лікар оглядає: " + nextPatient.getName() + " <<<");
                     } catch (IllegalStateException e) {
                         // Перехоплюємо нашу помилку, якщо черга порожня
-                        System.out.println("ПОМИЛКА: " + e.getMessage());
+                        System.out.println("❌ ПОМИЛКА: " + e.getMessage());
                     }
                     break;
                 case "0":
                     return;
                 default:
-                    System.err.println("Введіть коректний номер з меню!");
+                    System.out.println("❌ ПОМИЛКА: Введіть коректний номер з меню!");
             }
 
         }

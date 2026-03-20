@@ -1,19 +1,34 @@
 package entity;
 
+import repository.annotation.CsvColum;
+import repository.annotation.CsvTable;
+import ui.annotation.validationAnnotation.NoBlank;
+import ui.annotation.validationAnnotation.NotNull;
+
 import java.util.Objects;
 
+@CsvTable(fileName = "doctors.csv")
 public class Doctor implements Comparable<Doctor> {
+
+    @CsvColum(index = 0)
     private Integer id;
-    private final String name;
-    private final Specialization specialization;
+
+    @CsvColum(index = 1)
+    @NoBlank(message = "Введіть ім'я лікаря")
+    private String name;
+
+    @CsvColum(index = 2)
+    @NotNull(message = "Оберіть спеціальність")
+    private Specialization specialization;
 
     public Doctor(Integer id, String name, Specialization specialization) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Введіть ім'я лікаря");
-        }
         this.id = id;
         this.name = name;
         this.specialization = specialization;
+    }
+
+    public Doctor(){
+
     }
 
     public Integer getId() {

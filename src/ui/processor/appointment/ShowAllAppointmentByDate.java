@@ -4,8 +4,8 @@ import entity.Appointment;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
@@ -34,7 +34,7 @@ public record ShowAllAppointmentByDate(InputReader inputReader, AppointmentServi
 
             ConsolePrinter.showList(formattedList, "--- ЗАПИСИ НА ДАТУ (" + DateTimeFormat.format(localDateTime) + ") ---");
         } catch (IllegalArgumentException e) {
-            System.err.println("ПОМИЛКА: " + e.getMessage());
+            System.out.println("ПОМИЛКА: " + e.getMessage());
         }
     }
 }

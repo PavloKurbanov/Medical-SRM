@@ -7,7 +7,6 @@ import service.impl.LiveQueueService;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 
-import javax.crypto.spec.PSource;
 import java.util.Map;
 
 public class MainMenu {
@@ -39,7 +38,7 @@ public class MainMenu {
                 if(processor != null){
                     processor.process();
                 } else {
-                    System.err.println("Введіть номер з пункту!");
+                    System.out.println("Введіть номер з пункту!");
                 }
             }
         }

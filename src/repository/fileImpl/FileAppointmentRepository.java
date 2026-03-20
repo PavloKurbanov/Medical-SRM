@@ -2,6 +2,7 @@ package repository.fileImpl;
 
 import entity.Appointment;
 import repository.AppointmentRepository;
+import repository.annotation.CsvMapper;
 
 
 import java.io.IOException;
@@ -65,7 +66,7 @@ public class FileAppointmentRepository implements AppointmentRepository {
     private void saveFile() throws IOException {
         List<String> linesAppointment = new ArrayList<>();
         for (Appointment appointment : appointments.values()) {
-            String line = appointment.getId() + "," + appointment.getDoctorId() + "," + appointment.getPatientId() + "," + appointment.getDateTime();
+            String line = CsvMapper.toCsvLine(appointment);
             linesAppointment.add(line);
         }
         Files.write(filePath, linesAppointment);

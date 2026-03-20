@@ -4,6 +4,7 @@ package repository.fileImpl;
 import entity.Doctor;
 import entity.Specialization;
 import repository.DoctorRepository;
+import repository.annotation.CsvMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,7 +67,7 @@ public class FileDoctorRepository implements DoctorRepository {
     private void saveFile() throws IOException {
         List<String> lines = new ArrayList<>();
         for (Doctor doctor : doctors.values()) {
-            String line = doctor.getId() + "," + doctor.getName() + "," + doctor.getSpecialization().name();
+            String line = CsvMapper.toCsvLine(doctor);
             lines.add(line);
         }
         Files.write(filePath, lines);

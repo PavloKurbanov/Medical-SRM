@@ -16,8 +16,15 @@ public class InputReader {
     }
 
     public String readString(String prompt) {
-        System.out.print(prompt);
-        return scanner.nextLine();
+        while (true) {
+            System.out.print(prompt);
+            String s = scanner.nextLine();
+
+            if (!s.isBlank()) {
+                return s;
+            }
+            System.out.println("❌ Помилка: Це поле не може бути порожнім. Спробуйте ще раз.");
+        }
     }
 
     public Integer readInt(String prompt) {
@@ -27,7 +34,7 @@ public class InputReader {
                 String input = scanner.nextLine();
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.err.println("Введіть число!");
+                System.out.println("Введіть число!");
             }
         }
     }
@@ -40,7 +47,7 @@ public class InputReader {
             try {
                 dateTime = DateTimeFormat.parse(scanner.nextLine());
             } catch (IllegalArgumentException | DateTimeParseException e) {
-                System.err.println("ПОМИЛКА: Невірний формат дати. " + e.getMessage());
+                System.out.println("ПОМИЛКА: Невірний формат дати. " + e.getMessage());
             }
         }
         return dateTime;
@@ -60,7 +67,7 @@ public class InputReader {
                     specialization = specializations[specializationNumber - 1];
                 }
             } catch (NumberFormatException e) {
-                System.err.println("Введіть число!");
+                System.out.println("Введіть число!");
             }
         } while (specialization == null);
         return specialization;

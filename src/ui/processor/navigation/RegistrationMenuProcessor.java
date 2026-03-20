@@ -2,8 +2,8 @@ package ui.processor.navigation;
 
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.menu.RegistrationMenu;
 import ui.processor.Processor;

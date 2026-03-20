@@ -1,18 +1,29 @@
 package entity;
 
 
+import repository.annotation.CsvColum;
+import repository.annotation.CsvTable;
+import ui.annotation.validationAnnotation.NoBlank;
+
 import java.util.Objects;
 
+@CsvTable(fileName = "patients.cvc")
 public class Patient implements Comparable<Patient> {
+
+    @CsvColum(index = 0)
     private Integer id;
-    private final String name;
+
+    @CsvColum(index = 1)
+    @NoBlank(message = "Введіть ім'я пацієнта!")
+    private String name;
 
     public Patient(Integer id, String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Введіть ім'я пацієнта");
-        }
         this.id = id;
         this.name = name;
+    }
+
+    public Patient(){
+
     }
 
     public Integer getId() {

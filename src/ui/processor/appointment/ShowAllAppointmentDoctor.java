@@ -5,14 +5,13 @@ import entity.Doctor;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
 import util.ConsolePrinter;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 @MenuItem(action = "2", description = "Показати всі записи лікаря", group = MenuGroup.RECORDING)
@@ -46,7 +45,7 @@ public record ShowAllAppointmentDoctor(AppointmentService appointmentService,
             ConsolePrinter.showList(formattedList, "--- Записи лікаря " + doctorRepositoryById.getName() + " ---");
 
         } catch (IllegalArgumentException e) {
-            System.err.println("ПОМИЛКА: " + e.getMessage());
+            System.out.println("ПОМИЛКА: " + e.getMessage());
         }
     }
 }

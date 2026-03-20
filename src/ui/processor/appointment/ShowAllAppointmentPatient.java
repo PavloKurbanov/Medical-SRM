@@ -5,8 +5,8 @@ import entity.Patient;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.inputReader.InputReader;
 import ui.processor.Processor;
 import util.AppointmentViewMapper;
@@ -39,7 +39,7 @@ public record ShowAllAppointmentPatient(AppointmentService appointmentService, D
 
             ConsolePrinter.showList(formattedList, "--- Записи пацієнта " + patient.getName() + " ---");
         } catch (IllegalArgumentException e) {
-            System.err.println("ПОИМЛКА:" + e.getMessage());
+            System.out.println("ПОИМЛКА:" + e.getMessage());
         }
     }
 }

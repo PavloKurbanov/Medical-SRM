@@ -1,19 +1,17 @@
 package ui.menu;
 
-import entity.Appointment;
 import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
-import ui.annotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuGroup;
 import ui.inputReader.InputReader;
-import ui.menuRegistry.MenuRegistry;
+import ui.annotation.menuAnnotation.menuRegistry.MenuRegistry;
 import ui.processor.*;
 import ui.processor.appointment.ShowAllAppointment;
 import ui.processor.appointment.ShowAllAppointmentByDate;
 import ui.processor.appointment.ShowAllAppointmentDoctor;
 import ui.processor.appointment.ShowAllAppointmentPatient;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

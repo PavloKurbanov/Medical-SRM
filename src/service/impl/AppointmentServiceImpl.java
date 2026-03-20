@@ -7,6 +7,7 @@ import repository.AppointmentRepository;
 import repository.DoctorRepository;
 import repository.PatientRepository;
 import service.AppointmentService;
+import ui.annotation.validationAnnotation.validator.Validator;
 import util.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -48,7 +49,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new IllegalArgumentException("Пацієнт " + patientById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
         }
 
-        appointmentRepository.save(new Appointment(null, doctorId, patientId, dateTime));
+        Appointment appointment = new Appointment(null, doctorId, patientId, dateTime);
+        Validator.validator(appointment);
+        appointmentRepository.save(appointment);
     }
 
     @Override

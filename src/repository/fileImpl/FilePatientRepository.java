@@ -2,6 +2,7 @@ package repository.fileImpl;
 
 import entity.Patient;
 import repository.PatientRepository;
+import repository.annotation.CsvMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,7 +33,7 @@ public class FilePatientRepository implements PatientRepository {
 
     @Override
     public void save(Patient patient) {
-        if(patient == null) {
+        if (patient == null) {
             throw new IllegalArgumentException("Не може бути null");
         }
         if (patient.getId() == null) {
@@ -62,33 +63,26 @@ public class FilePatientRepository implements PatientRepository {
     private void saveFile() throws IOException {
         List<String> lines = new ArrayList<>();
         for (Patient patient : patients.values()) {
-            String line = patient.getId() + "," + patient.getName();
+            String line = CsvMapper.toCsvLine(patient);
             lines.add(line);
         }
         Files.write(filePath, lines);
     }
 
     private void loadFile() throws IOException {
-        boolean exists = Files.exists(filePath);
-        if (!exists) {
+        if (!Files.exists(filePath)) {
             return;
         }
 
-        List<String> list = Files.readAllLines(filePath);
-        for (String line : list) {
-            String[] split = line.split(",");
+        List<String> lines = Files.readAllLines(filePath);
+        for (String line : lines) {
+            if (line.isBlank()) continue; // пропускаємо порожні рядки
 
-            int patientId = Integer.parseInt(split[0]);
-            String patientName = split[1];
+            // МАГІЯ ТУТ: Мапер сам створює Пацієнта з рядка!
+            Patient patient = CsvMapper.fromCsvLine(line, Patient.class);
 
-            Patient patient = new Patient(patientId, patientName);
-
-            patients.put(patientId, patient);
-            uniquePatientNames.add(patient.getName());
-
-            if (patientId >= this.patientId) {
-                this.patientId = patientId + 1;
-            }
+            // Зберігаємо його в нашу мапу
+            patients.put(patient.getId(), patient);
         }
     }
 }

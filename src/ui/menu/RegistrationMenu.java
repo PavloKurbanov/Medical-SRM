@@ -32,7 +32,7 @@ public class RegistrationMenu {
                 if(processor != null){
                     processor.process();
                 } else {
-                    System.err.println("Оберіть дію зі списку!");
+                    System.out.println("Оберіть дію зі списку!");
                 }
             }
         }

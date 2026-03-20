@@ -1,7 +1,7 @@
-package ui.menuRegistry;
+package ui.annotation.menuAnnotation.menuRegistry;
 
-import ui.annotation.MenuGroup;
-import ui.annotation.MenuItem;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuItem;
 import ui.processor.Processor;
 
 import java.util.HashMap;

@@ -4,16 +4,15 @@ import service.AppointmentService;
 import service.DoctorService;
 import service.PatientService;
 import service.impl.LiveQueueService;
-import ui.annotation.MenuGroup;
+import ui.annotation.menuAnnotation.MenuGroup;
 import ui.inputReader.InputReader;
-import ui.menuRegistry.MenuRegistry;
+import ui.annotation.menuAnnotation.menuRegistry.MenuRegistry;
 import ui.processor.appointment.BookAppointmentProcessor;
 import ui.processor.Processor;
 import ui.processor.liveQueue.LiveQueueProcessor;
 import ui.processor.navigation.RecordingMenuProcessor;
 import ui.processor.navigation.RegistrationMenuProcessor;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

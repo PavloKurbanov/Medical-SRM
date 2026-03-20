@@ -1,4 +1,4 @@
-package ui.annotation;
+package ui.annotation.menuAnnotation;
 
 public enum MenuGroup {
     MAIN,
