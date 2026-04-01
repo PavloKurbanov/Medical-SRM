@@ -1,0 +1,34 @@
+package ui.menu;
+
+import service.AppointmentService;
+import service.DoctorService;
+import service.PatientService;
+import ui.annotation.menuAnnotation.MenuGroup;
+import ui.inputReader.InputReader;
+import ui.annotation.menuAnnotation.menuRegistry.MenuRegistry;
+import ui.processor.*;
+import ui.processor.appointment.ShowAllAppointment;
+import ui.processor.appointment.ShowAllAppointmentByDate;
+import ui.processor.appointment.ShowAllAppointmentDoctor;
+import ui.processor.appointment.ShowAllAppointmentPatient;
+
+import java.util.List;
+import java.util.Map;
+
+public record RecordingMenuBuilder(InputReader inputReader, AppointmentService appointmentService,
+                                   DoctorService doctorService, PatientService patientService) {
+
+    public Map<String, Processor> showMenu() {
+
+        Processor showAllAppointment = new ShowAllAppointment(appointmentService, doctorService, patientService);
+        Processor showAllAppointmentDoctor = new ShowAllAppointmentDoctor(appointmentService, doctorService, patientService, inputReader);
+        Processor showAllAppointmentPatient = new ShowAllAppointmentPatient(appointmentService, doctorService, patientService, inputReader);
+        Processor showAllAppointmentByDate = new ShowAllAppointmentByDate(inputReader, appointmentService, doctorService, patientService);
+
+        List<Processor> appointments = List.of(
+                showAllAppointment, showAllAppointmentDoctor, showAllAppointmentPatient, showAllAppointmentByDate
+        );
+
+        return MenuRegistry.buildMenu(appointments, MenuGroup.RECORDING);
+    }
+}
