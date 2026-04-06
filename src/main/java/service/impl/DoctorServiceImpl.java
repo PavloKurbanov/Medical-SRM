@@ -7,17 +7,12 @@ import ui.annotation.validationAnnotation.validator.Validator;
 
 import java.util.List;
 
-public class DoctorServiceImpl implements DoctorService {
-    private final DoctorRepository doctorRepository;
-
-    public DoctorServiceImpl(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
-    }
+public record DoctorServiceImpl(DoctorRepository doctorRepository) implements DoctorService {
 
     @Override
     public void save(Doctor doctor) {
         Validator.validator(doctor);
-       doctorRepository.save(doctor);
+        doctorRepository.save(doctor);
     }
 
     @Override

@@ -7,12 +7,7 @@ import ui.annotation.validationAnnotation.validator.Validator;
 
 import java.util.List;
 
-public class PatientServiceImpl implements PatientService {
-    private final PatientRepository patientRepository;
-
-    public PatientServiceImpl(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
+public record PatientServiceImpl(PatientRepository patientRepository) implements PatientService {
 
     @Override
     public List<Patient> findAll() {

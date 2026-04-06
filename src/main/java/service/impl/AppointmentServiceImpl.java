@@ -15,16 +15,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AppointmentServiceImpl implements AppointmentService {
-    private final AppointmentRepository appointmentRepository;
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
-
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, PatientRepository patientRepository) {
-        this.appointmentRepository = appointmentRepository;
-        this.doctorRepository = doctorRepository;
-        this.patientRepository = patientRepository;
-    }
+public record AppointmentServiceImpl(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository,
+                                     PatientRepository patientRepository) implements AppointmentService {
 
     @Override
     public void save(Integer doctorId, Integer patientId, LocalDateTime dateTime) {
@@ -41,7 +33,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new IllegalArgumentException("Запис не можу бути до " + DateTimeFormat.format(LocalDateTime.now()));
         }
 
-        if(appointmentRepository.findByDoctorId(doctorId).stream().anyMatch(appointment -> isTimeOverlap(appointment.getDateTime(), dateTime))){
+        if (appointmentRepository.findByDoctorId(doctorId).stream().anyMatch(appointment -> isTimeOverlap(appointment.getDateTime(), dateTime))) {
             throw new IllegalArgumentException("Лікар " + doctorById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
         }
 
@@ -80,8 +72,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getSortAppointments(Comparator<Appointment> comparator){
-        if(comparator == null){
+    public List<Appointment> getSortAppointments(Comparator<Appointment> comparator) {
+        if (comparator == null) {
             return getAllAppointments();
         }
         return getAllAppointments().stream().sorted(comparator).collect(Collectors.toList());

@@ -1,34 +1,32 @@
 package entity;
 
-import repository.annotation.CsvColum;
-import repository.annotation.CsvTable;
 import ui.annotation.validationAnnotation.NoBlank;
 import ui.annotation.validationAnnotation.NotNull;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-@CsvTable(fileName = "doctors.csv")
+@Entity
+@Table(name = "doctors")
 public class Doctor implements Comparable<Doctor> {
 
-    @CsvColum(index = 0)
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @CsvColum(index = 1)
     @NoBlank(message = "Введіть ім'я лікаря")
-    private String name;
+    @Column(name = "name", nullable = false, unique = true)
+    private final String name;
 
-    @CsvColum(index = 2)
     @NotNull(message = "Оберіть спеціальність")
-    private Specialization specialization;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "specialization", nullable = false)
+    private final Specialization specialization;
 
     public Doctor(Integer id, String name, Specialization specialization) {
         this.id = id;
         this.name = name;
         this.specialization = specialization;
-    }
-
-    public Doctor(){
-
     }
 
     public Integer getId() {
