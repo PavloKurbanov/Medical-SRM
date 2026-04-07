@@ -2,77 +2,114 @@ package repository.jbdsRepositoryImpl;
 
 import entity.Appointment;
 import repository.AppointmentRepository;
+import util.ConnectionManager;
 
-import java.sql.*;
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public record JDBCAppointmentRepository(Connection connection) implements AppointmentRepository {
+public record JDBCAppointmentRepository(ConnectionManager connectionManager) implements AppointmentRepository {
 
     @Override
     public void save(Appointment entity) {
         if (entity == null) {
             throw new IllegalArgumentException("Запис не може бути null!");
         }
+        EntityManager entityManager = null;
 
-        String sql = "INSERT INTO appointments (doctor_id, patient_id, visit_date) values (?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, entity.getDoctorId());
-            preparedStatement.setInt(2, entity.getPatientId());
-            preparedStatement.setObject(3, Timestamp.valueOf(entity.getDateTime()));
-
-            int i = preparedStatement.executeUpdate();
-
-            if (i == 0) {
-                throw new SQLException("Збереження запису не вдалося, жодного рядка не додано.");
+        try {
+            entityManager = connectionManager.getEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.merge(entity);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-
-        } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
+
     }
 
     @Override
     public Appointment findById(Integer integer) {
-        String sql = "Select id, doctor_id, patient_id, visit_date where id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, integer);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                Integer doctorId = resultSet.getInt("doctor_id");
-                Integer patientId = resultSet.getInt("patient_id");
-                LocalDateTime dateTime = resultSet.getObject("visit_date", LocalDateTime.class);
-                return new Appointment(id, doctorId, patientId, dateTime);
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.find(Appointment.class, integer);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Помилка при пошуку запису з ID: " + integer, e);
         }
-        return null;
     }
 
     @Override
     public List<Appointment> findAll() {
-        List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM appointments";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                int doctorId = resultSet.getInt("doctor_id");
-                int patientId = resultSet.getInt("patient_id");
-                LocalDateTime date = resultSet.getObject("visit_date", LocalDateTime.class);
-                Appointment appointment = new Appointment(id, doctorId, patientId, date);
-                appointments.add(appointment);
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.createQuery("select a from Appointment a", Appointment.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Помилка завантаження записів", e);
         }
-        return appointments;
+    }
+
+    @Override
+    public List<Appointment> findByDateTime(LocalDateTime date) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.createQuery("select a from Appointment a where a.dateTime = :date", Appointment.class)
+                    .setParameter("date", date).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Appointment> findByDoctorId(Integer doctorId) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.createQuery("select a from Appointment a where a.doctor.id = :doctorId", Appointment.class)
+                    .setParameter("doctorId", doctorId).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Appointment> findByPatientId(Integer patientId) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.createQuery("select a from Appointment a where a.patient.id = :patientId", Appointment.class)
+                    .setParameter("patientId", patientId).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
     }
 }

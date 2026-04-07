@@ -17,7 +17,7 @@ public record RegistrationDoctorProcessor(InputReader inputReader, DoctorService
             Specialization specialization = inputReader.readSpecialization("Оберіть спеціальність");
 
             doctorService.save(new Doctor(null, doctorName, specialization));
-            System.out.println("Лікар " + doctorName + " | Спеціальність: " + specialization.getSpecialization() + " успішно доданий");
+            System.out.println("Лікар " + doctorName + " | Спеціальність: " + specialization.getLabel() + " успішно доданий");
         } catch (IllegalArgumentException e) {
             System.out.println("ПОМИЛКА: " + e.getMessage());
         }

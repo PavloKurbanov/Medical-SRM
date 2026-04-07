@@ -15,11 +15,10 @@ public final class AppointmentViewMapper {
     }
     public static List<String> toFormattedList(List<Appointment> appointments, DoctorService doctorService, PatientService patientService) {
         return appointments.stream().map(appointment -> {
-            Doctor doctor = doctorService.findById(appointment.getDoctorId());
-            Patient patient = patientService.findById(appointment.getPatientId());
+            Doctor doctor = doctorService.findById(appointment.getDoctor().getId());
+            Patient patient = patientService.findById(appointment.getPatient().getId());
 
-            String info = "Пацієнт " + patient.getName() + " записаний до лікаря " + doctor.getName() + " на (" + DateTimeFormat.format(appointment.getDateTime()) + ")";
-            return info;
+            return "Пацієнт " + patient.getName() + " записаний до лікаря " + doctor.getName() + " на (" + DateTimeFormat.format(appointment.getDateTime()) + ")";
         }).collect(Collectors.toList());
     }
 }

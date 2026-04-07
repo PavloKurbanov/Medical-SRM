@@ -60,7 +60,7 @@ public class InputReader {
             try {
                 System.out.println(prompt);
                 for (int i = 0; i < specializations.length; i++) {
-                    System.out.println((i + 1) + ". " + specializations[i].getSpecialization());
+                    System.out.println((i + 1) + ". " + specializations[i].getLabel());
                 }
                 int specializationNumber = Integer.parseInt(scanner.nextLine());
                 if (specializationNumber >= 1 && specializationNumber <= specializations.length) {

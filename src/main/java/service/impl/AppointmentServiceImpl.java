@@ -41,7 +41,7 @@ public record AppointmentServiceImpl(AppointmentRepository appointmentRepository
             throw new IllegalArgumentException("Пацієнт " + patientById.getName() + " вже має запис на час (" + DateTimeFormat.format(dateTime) + ")");
         }
 
-        Appointment appointment = new Appointment(null, doctorId, patientId, dateTime);
+        Appointment appointment = new Appointment(null, doctorById, patientById, dateTime);
         Validator.validator(appointment);
         appointmentRepository.save(appointment);
     }
@@ -63,7 +63,7 @@ public record AppointmentServiceImpl(AppointmentRepository appointmentRepository
 
     @Override
     public List<Appointment> appointmentFindByDateTime(LocalDateTime date) {
-        return appointmentRepository.appointmentFindByDateTime(date);
+        return appointmentRepository.findByDateTime(date);
     }
 
     @Override

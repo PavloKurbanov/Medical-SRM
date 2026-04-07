@@ -14,19 +14,24 @@ public class Doctor implements Comparable<Doctor> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @NoBlank(message = "Введіть ім'я лікаря")
     @Column(name = "name", nullable = false, unique = true)
-    private final String name;
+    private String name;
 
     @NotNull(message = "Оберіть спеціальність")
     @Enumerated(EnumType.STRING)
     @Column(name = "specialization", nullable = false)
-    private final Specialization specialization;
+    private Specialization specialization;
 
     public Doctor(Integer id, String name, Specialization specialization) {
         this.id = id;
         this.name = name;
         this.specialization = specialization;
+    }
+
+    public Doctor() {
+
     }
 
     public Integer getId() {
@@ -68,6 +73,6 @@ public class Doctor implements Comparable<Doctor> {
 
     @Override
     public String toString() {
-        return String.format("ID: %d | %s | Спеціалізація: %s", id, name, specialization.getSpecialization());
+        return String.format("ID: %d | %s | Спеціалізація: %s", id, name, specialization.getLabel());
     }
 }

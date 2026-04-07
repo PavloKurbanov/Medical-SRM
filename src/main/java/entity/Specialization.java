@@ -1,6 +1,7 @@
 package entity;
 
 public enum Specialization {
+    // Константи (це те, що Hibernate запише в базу як STRING)
     DENTIST("Стоматолог"),
     THERAPIST("Терапевт"),
     SURGEON("Хірург"),
@@ -12,22 +13,25 @@ public enum Specialization {
     GYNECOLOGIST("Гінеколог"),
     OTOLARYNGOLOGIST("Отоларинголог");
 
-    private final String specialization;
+    private final String label;
 
-    Specialization(String specialization) {
-        this.specialization = specialization;
+    // Конструктор для "красивої" назви
+    Specialization(String label) {
+        this.label = label;
     }
 
-    public String getSpecialization() {
-        return specialization;
+    // Метод для отримання української назви (для UI)
+    public String getLabel() {
+        return label;
     }
 
-    public static Specialization getSpecialization(String specialization) {
-        for (Specialization value : Specialization.values()) {
-            if(value.getSpecialization().equalsIgnoreCase(specialization)){
-                return value;
+    // Статичний метод для пошуку за українською назвою (якщо треба вводити з консолі)
+    public static Specialization fromLabel(String label) {
+        for (Specialization s : values()) {
+            if (s.label.equalsIgnoreCase(label)) {
+                return s;
             }
         }
-        throw new IllegalArgumentException("Невідома спеціалізація: " + specialization);
+        throw new IllegalArgumentException("Невідома спеціалізація: " + label);
     }
 }

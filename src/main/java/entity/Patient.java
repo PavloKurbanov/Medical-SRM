@@ -1,18 +1,28 @@
 package entity;
+
 import ui.annotation.validationAnnotation.NoBlank;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "patients")
 public class Patient implements Comparable<Patient> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NoBlank(message = "Введіть ім'я пацієнта!")
-    private final String name;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
     public Patient(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Patient() {
     }
 
     public Integer getId() {

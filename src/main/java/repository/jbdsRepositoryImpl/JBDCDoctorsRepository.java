@@ -1,73 +1,55 @@
 package repository.jbdsRepositoryImpl;
 
 import entity.Doctor;
-import entity.Specialization;
 import repository.DoctorRepository;
+import util.ConnectionManager;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
 
-public record JBDCDoctorsRepository(Connection connection) implements DoctorRepository {
+public record JBDCDoctorsRepository(ConnectionManager connectionManager) implements DoctorRepository {
 
     @Override
     public void save(Doctor doctor) {
-        if (doctor == null) {
-            throw new IllegalArgumentException("Не може бути null");
-        }
-        String sql = "insert into doctors (name, specialization) values (?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, doctor.getName());
-            preparedStatement.setString(2, doctor.getSpecialization().getSpecialization());
-            int executeUpdate = preparedStatement.executeUpdate();
-
-            if (executeUpdate == 0) {
-                throw new SQLException("Збереження лікаря не вдалося, жодного рядка не додано.");
+        EntityManager em = null;
+        try {
+            em = connectionManager.getEntityManager();
+            em.getTransaction().begin();
+            em.merge(doctor);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Не вдалось зберегти доктора у базу", e);
+            throw new RuntimeException("Помилка збереження лікаря: " + doctor.getName(), e);
+        } finally {
+            if (em != null && em.isOpen()) em.close();
         }
     }
 
     @Override
-    public Doctor findById(Integer integer) {
-        String sql = "select id, name, specialization from doctors where id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, integer);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String name = resultSet.getString("name");
-                    Specialization specialization = Specialization.getSpecialization(resultSet.getString("specialization"));
-                    return new Doctor(id, name, specialization);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Помилка при пошуку лікаря з ID: " + integer, e);
+    public Doctor findById(Integer id) {
+        EntityManager em = null;
+        try {
+            em = connectionManager.getEntityManager();
+            return em.find(Doctor.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Помилка при пошуку за ID: " + id, e);
+        } finally {
+            if (em != null && em.isOpen()) em.close();
         }
-        return null;
     }
 
     @Override
     public List<Doctor> findAll() {
-        ArrayList<Doctor> doctors = new ArrayList<>();
-        String sql = "select * from doctors";
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                Specialization specialization = Specialization.getSpecialization(resultSet.getString("specialization"));
-                Doctor doctor = new Doctor(id, name, specialization);
-                doctors.add(doctor);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Не має жодного лікаря!", e);
+        EntityManager em = null;
+        try {
+            em = connectionManager.getEntityManager();
+            return em.createQuery("select d from Doctor d", Doctor.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Помилка при отриманні всіх лікарів", e);
+        } finally {
+            if (em != null && em.isOpen()) em.close();
         }
-        return doctors;
     }
 }

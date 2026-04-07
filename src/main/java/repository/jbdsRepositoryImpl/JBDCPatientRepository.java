@@ -2,12 +2,12 @@ package repository.jbdsRepositoryImpl;
 
 import entity.Patient;
 import repository.PatientRepository;
+import util.ConnectionManager;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
 
-public record JBDCPatientRepository(Connection connection) implements PatientRepository {
+public record JBDCPatientRepository(ConnectionManager connectionManager) implements PatientRepository {
 
     @Override
     public void save(Patient entity) {
@@ -15,56 +15,49 @@ public record JBDCPatientRepository(Connection connection) implements PatientRep
             throw new IllegalArgumentException("Пацієнт не може бути null!");
         }
 
-        String sql = "INSERT INTO patients (name) VALUES (?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, entity.getName());
-            int i = preparedStatement.executeUpdate();
-
-            if (i == 0) {
-                throw new SQLException("Збереження пацієнта не вдалося, жодного рядка не додано.");
+        EntityManager entityManager = null;
+        try {
+            entityManager = connectionManager.getEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.merge(entity);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-        } catch (SQLException e) {
             throw new RuntimeException("Не вдалось зберегти пацієнта у базу", e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public Patient findById(Integer integer) {
-        String sql = "select id, name from patients where id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, integer);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String name = resultSet.getString("name");
-                    return new Patient(id, name);
-                }
-            }
-        } catch (SQLException e) {
+        EntityManager entityManager = null;
+        try{
+            entityManager = connectionManager.getEntityManager();
+            return entityManager.find(Patient.class, integer);
+        } catch (Exception e) {
             throw new RuntimeException("Помилка при пошуку пацієнта з ID: " + integer, e);
+        } finally {
+            if (entityManager != null && entityManager.isOpen()) entityManager.close();
         }
-        return null;
     }
 
     @Override
     public List<Patient> findAll() {
-        List<Patient> patients = new ArrayList<>();
-        String sql = "SELECT * FROM patients";
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-
-                Patient patient = new Patient(id, name);
-                patients.add(patient);
-            }
-        } catch (SQLException e) {
+        EntityManager entityManager = null;
+        try {
+        entityManager = connectionManager.getEntityManager();
+        return entityManager.createQuery("Select p from Patient p ",  Patient.class).getResultList();
+        } catch (Exception e) {
             throw new RuntimeException(e);
+        }  finally {
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
-        return patients;
     }
 }
